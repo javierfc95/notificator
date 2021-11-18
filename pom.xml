@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.rundeck.plugin</groupId>
+    <artifactId>notificator</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>notificator</name>
+
+    <url></url>
+    <description></description>
+    <properties>
+     <maven.compiler.source>1.8</maven.compiler.source>
+     <maven.compiler.target>1.8</maven.compiler.target>
+</properties>
+
+  
+    <dependencies>
+		<dependency>
+	      <groupId>org.rundeck</groupId>
+	      <artifactId>rundeck-core</artifactId>
+	      <version>3.4.6-20211110</version>
+	      <scope>compile</scope>
+	   </dependency>
+	   <dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.13</version>
+	   </dependency>
+	   <!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.13.2</version>
+		    <scope>test</scope>
+		</dependency>
+	   
+	   
+    </dependencies>
+    <dependencyManagement>
+
+    </dependencyManagement>
+
+<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+							<excludeTransitive>false</excludeTransitive>
+							<excludeScope>provided</excludeScope>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<outputDirectory>${project.build.directory}</outputDirectory>
+					<archive>
+						<manifest>
+		                    <classpathPrefix>lib/</classpathPrefix>
+	               		</manifest>
+						<manifestEntries>
+							<Rundeck-Plugin-Classnames>com.rundeck.plugin.notificator.ExampleNotificationPlugin</Rundeck-Plugin-Classnames>
+							<Rundeck-Plugin-File-Version>${project.version}</Rundeck-Plugin-File-Version>
+							<Rundeck-Plugin-Version>3.4.6-20211110</Rundeck-Plugin-Version>
+							<Rundeck-Plugin-Archive>true</Rundeck-Plugin-Archive>
+							<Rundeck-Plugin-libs>lib/httpclient-4.5.13.jar lib/httpcore-4.5.13.jar lib/junit-4.13.2.jar</Rundeck-Plugin-libs>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
